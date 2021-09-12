@@ -97,6 +97,6 @@ public class Author {
     }
 
     public void addPost(Post post) {
-        this.posts=posts;
+        posts.add(post);
     }
 }

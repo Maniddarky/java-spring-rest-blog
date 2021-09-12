@@ -22,7 +22,7 @@ public class DatabaseLoader implements ApplicationRunner {
     public List<Author> authors = new ArrayList<>();
 
 
-    private PostRepository postRepository;
+    private final PostRepository postRepository;
 
     private final AuthorRepository authorRepository;
 
@@ -41,13 +41,13 @@ public class DatabaseLoader implements ApplicationRunner {
           new Author("Orlando","Bloom","Bloomser","Comedy"),
                 new Author("venny","Peng","Pengsolra","Peng124")
         ));
+        authorRepository.saveAll(authors);
 
         IntStream.range(0,40).forEach(i->{
 
-            Author author=authors.get(i%authors.size());
-
             String template = templates[i % templates.length];
             String gadget = gadgets[i % gadgets.length];
+            Author author=authors.get(i%authors.size());
 
             String title = String.format(template, gadget);
             Post post = new Post(title, "Lorem ipsum dolor sit amet, consectetur adipiscing elit… ");
@@ -55,8 +55,8 @@ public class DatabaseLoader implements ApplicationRunner {
             author.addPost(post);
             randomPosts.add(post);
         });
-        authorRepository.saveAll(authors);
         postRepository.saveAll(randomPosts);
+        authorRepository.saveAll(authors);
 
     }
 }
