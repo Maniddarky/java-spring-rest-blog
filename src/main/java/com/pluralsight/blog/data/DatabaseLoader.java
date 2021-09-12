@@ -44,15 +44,19 @@ public class DatabaseLoader implements ApplicationRunner {
 
         IntStream.range(0,40).forEach(i->{
 
-            Author author=authors(i%authors.size());
+            Author author=authors.get(i%authors.size());
 
             String template = templates[i % templates.length];
             String gadget = gadgets[i % gadgets.length];
 
             String title = String.format(template, gadget);
             Post post = new Post(title, "Lorem ipsum dolor sit amet, consectetur adipiscing elit… ");
+            post.setAuthor(author);
+            author.addPost(post);
             randomPosts.add(post);
         });
+        authorRepository.saveAll(authors);
         postRepository.saveAll(randomPosts);
+
     }
 }
