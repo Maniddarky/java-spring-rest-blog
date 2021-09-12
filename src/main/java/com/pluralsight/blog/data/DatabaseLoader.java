@@ -24,14 +24,28 @@ public class DatabaseLoader implements ApplicationRunner {
 
     private PostRepository postRepository;
 
+    private final AuthorRepository authorRepository;
+
     @Autowired
-    public DatabaseLoader(PostRepository postRepository) {
+    public DatabaseLoader(PostRepository postRepository,AuthorRepository authorRepository) {
         this.postRepository=postRepository;
+        this.authorRepository=authorRepository;
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
+
+        authors.addAll(Arrays.asList(
+          new Author("Shouldness","Sarah","Holderness","Password"),
+          new Author("Rowling","Jk","Rowling","Anna"),
+          new Author("Orlando","Bloom","Bloomser","Comedy"),
+                new Author("venny","Peng","Pengsolra","Peng124")
+        ));
+
         IntStream.range(0,40).forEach(i->{
+
+            Author author=authors(i%authors.size());
+
             String template = templates[i % templates.length];
             String gadget = gadgets[i % gadgets.length];
 
